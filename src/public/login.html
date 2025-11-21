@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ziplai — Login</title>
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/login.css" />
+  <script src="/js/login.js" defer></script>
+</head>
+
+<body>
+  <div id="ai-loader">
+    <div class="ai-loader-content">
+      <div class="ai-spinner"></div>
+      <p id="overlay-loader-text">Verifying your email...</p>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Welcome to Ziplai</h1>
+    <p>If you don’t have an account yet, just log in — we’ll create one for you.</p>
+    <form id="loginForm" autocomplete="on">
+      <input type="email" id="email" placeholder="Email" name="email" autocomplete="username" required />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          name="password"
+          autocomplete="current-password"
+          required
+        />
+        <span id="togglePassword" class="toggle-password">👁️</span>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+</body>
+
+</html>

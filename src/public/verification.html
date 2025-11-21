@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ziplai — Verify Your Email</title>
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/verification.css" />
+  <script src="/js/verification.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <h1>Email Verification Required</h1>
+    <p>
+      We’ve sent a verification link to your email address.<br />
+      Please click the link in the email to verify your account.
+    </p>
+    <button class="btn" id="resend-btn">Resend Verification Email</button>
+    <button class="btn secondary" onclick="window.location.href='/login'">Back to Login</button>
+    <footer>Didn’t get the email? Check your spam folder or try resending.</footer>
+  </div>
+</body>
+</html>

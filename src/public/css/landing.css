@@ -1,0 +1,248 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #071027, #081025);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(10, 16, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+h1 {
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+nav a {
+  color: #e6eef6;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: #a78bfa;
+}
+
+.btn.small {
+  padding: 6px 12px;
+  background: var(--accent, #7c3aed);
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn.small:hover {
+  background: #8b5cf6;
+  transform: translateY(-1px);
+}
+
+/* Hero Section */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+  max-width: 700px;
+  line-height: 1.3;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #ccc;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.hero .btn {
+  background: #7c3aed;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 14px 36px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+.hero .btn:hover {
+  background: #8b5cf6;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
+}
+
+/* Pricing Section */
+.pricing {
+  text-align: center;
+  padding: 100px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pricing h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.pricing p {
+  color: #ccc;
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+
+.pricing-card {
+  display: inline-block;
+  padding: 40px 50px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  max-width: 340px;
+}
+
+.pricing-card h4 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.pricing-card p {
+  color: #ccc;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.pricing-card .price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #a78bfa;
+  margin-bottom: 10px;
+}
+
+.pricing-card small {
+  display: block;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+.pricing-card .btn {
+  background: #7c3aed;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 9999px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+  margin-top: 10px;
+}
+
+.pricing-card .btn:hover {
+  background: #8b5cf6;
+  transform: translateY(-2px);
+}
+
+/* footer {
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  color: #999;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+} */
+
+.footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  padding: 15px 10px;
+  margin-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+}
+
+.footer a {
+  color: #7c3aed;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: #a78bfa;
+}
+
+@media (max-width: 700px) {
+  .hero h2 {
+    font-size: 1.9rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .pricing-card {
+    /* width: 100%; */
+    padding: 30px 20px;
+  }
+}

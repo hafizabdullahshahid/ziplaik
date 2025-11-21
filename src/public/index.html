@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ziplai — Generate Cover Letter & LinkedIn Message</title>
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/home.css" />
+  <script src="/js/home.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+</head>
+
+<body>
+  <div id="ai-loader">
+    <div class="ai-loader-content">
+      <div class="ai-spinner"></div>
+      <p>AI is cooking something magical...</p>
+    </div>
+  </div>
+  <div class="grey-loader-overlay hidden" id="grey-loader-overlay">
+    <div class="grey-loader"></div>
+  </div>
+
+  <!-- Confirm Popup -->
+  <div id="ai-confirm" class="ai-confirm-overlay">
+    <div class="ai-confirm-box">
+      <h3>Confirm Action</h3>
+      <p>Generating your cover letter and recruiter message will use <strong>1 credit</strong>.<br>Do you want to
+        proceed?</p>
+      <div class="ai-confirm-actions">
+        <button class="btn secondary" id="cancel-btn">Cancel</button>
+        <button class="btn" id="proceed-btn">Proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Popup Modal for Generations ====== -->
+  <div id="generations-popup" class="ai-confirm-overlay">
+    <div class="ai-confirm-box gen-popup">
+      <h3>Past Generations</h3>
+      <p class="small muted">
+        Up to 200 generations can be saved. Newer ones will replace older ones — download them if you don’t want to lose
+        them.
+      </p>
+
+      <div id="gen-loader" class="gen-loader">
+        <div class="gen-spinner"></div>
+        <p>Fetching your generations...</p>
+      </div>
+
+      <div class="gen-list" id="gen-list">
+        <!-- Example generation -->
+        <div class="gen-item">
+          <div class="gen-header">
+            <div>
+              <strong>Frontend Developer @ XYZ</strong><br>
+              <span class="small muted">Generated on Oct 18, 2025</span>
+            </div>
+            <button class="btn small view-details">View</button>
+          </div>
+          <div class="gen-details">
+            <div class="gen-section">
+              <h4>Cover Letter</h4>
+              <pre>Lorem ipsum dolor sit amet...</pre>
+              <button class="btn secondary small copy-btn">Copy Cover Letter</button>
+            </div>
+            <div class="gen-section">
+              <h4>Recruiter Message</h4>
+              <pre>Hi [Recruiter], ...</pre>
+              <button class="btn secondary small copy-btn">Copy Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-confirm-actions">
+        <button class="btn secondary" id="close-generations">Close</button>
+        <button class="btn" id="export-generations">Export All</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="title-description">
+        <h1>Ziplai — Cover Letter + LinkedIn Message</h1>
+        <p class="lead">Paste your resume or upload a PDF or DOCX, paste the job description, and generate tailored
+          application
+          text.</p>
+      </div>
+      <div class="meta" style="display:flex;align-items:center;gap:10px;">
+        <div class="badge" id="credit-badge">💎 Credits:
+          <span id="credits-count">
+            <span class="credit-loader"></span>
+          </span>
+        </div>
+        <button id="add-credits-btn" class="btn add-credits">+ Add Credits</button>
+        <!-- <button class="btn secondary small" id="view-generations-btn">View Past Generations</button>
+        <button class="btn logout small" id="logout-btn">Logout</button> -->
+        <div class="dropdown">
+          <button class="btn secondary small dropdown-toggle">Menu ▾</button>
+          <div class="dropdown-content">
+            <div class="dropdown-email" id="user-email">user@example.com</div>
+            <hr class="dropdown-divider" />
+            <button class="dropdown-item" id="view-generations-btn">📂 My Applications</button>
+            <button class="dropdown-item logout" id="logout-btn">🚪 Logout</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="credits-modal" class="credits-modal hidden">
+      <div class="credits-modal-content">
+        <h2>Add Credits</h2>
+        <p>Get 50 credits for just <strong>$3</strong>.</p>
+        <button id="buy-credits-btn" class="btn primary buy-btn">Buy 50 Credits</span></button>
+        <p class="agreement-text">
+          By proceeding, you agree to our
+          <a href="/terms.html" target="_blank">Terms of Service</a>,
+          <a href="/privacy.html" target="_blank">Privacy Policy</a>, and
+          <a href="/refund.html" target="_blank">Refund Policy</a>.
+        </p>
+        <button id="close-credits-modal" class="btn secondary small">Close</button>
+      </div>
+    </div>
+    <main>
+      <section class="card">
+        <form id="appForm" class="grid" autocomplete="off">
+          <div class="resume-upload-grid">
+            <label>Resume (PDF or DOCX upload <span class="small">or</span> paste text)</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <!-- Mock File UI -->
+              <div class="file-mock">
+                <div class="file-display">
+                  <button type="button" class="file-btn" id="choose-file-button">Choose File</button>
+                  <span class="file-name" id="file-name">No file chosen</span>
+                </div>
+              </div>
+              <!-- accept pdf and docx files -->
+              <input id="resumeFile" class="input" type="file"
+                accept="application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+              <button id="clearFile" type="button" class="secondary">Clear</button>
+            </div>
+            <div class="file-info" id="fileInfo">No file selected • Max size: 10 MB</div>
+          </div>
+          <div class="resume-text-job-desc-grid">
+            <div>
+              <label style="margin-top:12px">Or paste resume text</label>
+              <textarea id="resumeText" placeholder="Paste resume text here (max 6000 chars)" maxlength="6000"
+                required></textarea>
+              <div class="meta">
+                <div class="badge">Resume text limit: 6000 chars</div>
+                <div class="badge">PDF/DOCX file limit: 10 MB</div>
+              </div>
+            </div>
+
+            <div>
+              <label style="margin-top:12px">Job Description</label>
+              <textarea id="jobDesc" placeholder="Paste job description here (max 5000 chars)" maxlength="5000"
+                required></textarea>
+              <div class="meta">
+                <div class="badge">Job desc limit: 5000 chars</div>
+                <div class="badge">Generations cost: 1 credit</div>
+              </div>
+
+              <div class="actions">
+                <button id="generateBtn" type="button" class="btn">Generate</button>
+                <div style="flex:1"></div>
+                <div class="small" id="statusNote">Ready</div>
+              </div>
+              <div id="errorBox" style="display:none" class="error"></div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="card" id="result_card_placeholder">
+        <div id="results-container">
+          <!-- Empty state placeholder -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">✨</div>
+            <p class="empty-text">
+              Your AI-generated cover letter and recruiter message will appear here.
+              <br>
+              Once you click <strong>Generate</strong>, the magic begins.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="result_card">
+        <h3 style="margin-top:0">Results</h3>
+        <div class="results">
+          <div>
+            <div class="result-box">
+              <strong>Cover Letter</strong>
+              <pre id="coverLetter">—</pre>
+              <div class="result-actions">
+                <button id="copyCover" class="secondary">Copy</button>
+                <button id="downloadCover" class="secondary">Download .txt</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="result-box">
+              <strong>LinkedIn Message</strong>
+              <pre id="linkedinMsg">—</pre>
+              <div class="result-actions">
+                <button id="copyLinkedin" class="secondary">Copy</button>
+                <button id="downloadLinkedin" class="secondary">Download .txt</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="infoBox" style="margin-top:12px;color:var(--muted);font-size:13px">
+          <strong></strong><code></code><code></code>
+        </div>
+      </section>
+
+      <!-- <footer>
+        <div>© 2025 Ziplai. All rights reserved.</div>
+      </footer> -->
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>
+      © 2025 Ziplai —
+      <a href="/terms-and-conditions">Terms of Service</a> ·
+      <a href="/privacy-policy">Privacy Policy</a> ·
+      <a href="/refund-policy">Refund Policy</a>
+    </p>
+  </footer>
+  <div id="toast" class="toast">
+    <div class="toast-icon">✔</div>
+    <div class="toast-message">Credits added successfully!</div>
+  </div>
+</body>
+
+</html>
