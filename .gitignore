@@ -1,0 +1,5 @@
+node_modules/
+tmp_exports/
+user_resumes/
+.env
+package-lock.json
